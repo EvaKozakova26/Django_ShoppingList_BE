@@ -9,15 +9,31 @@
 </head>
 <body>
 
-{% if latest_items_list %}
-    <ul>
-        {% for item in latest_items_list %}
-            <li><a href="{% url 'detail' item.id %}">{{ item.itemName }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<div class="container">
+     {% if latest_items_list %}
+    <table class="u-full-width">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for item in latest_items_list %}
+    <tr>
+
+           <td><a href="{% url 'detail' item.id %}">{{ item.itemName }}</a></td>
+           <td>{{ item.date }}</td>
+
+    </tr>
+          {% endfor %}
+  </tbody>
+    </table>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+
+</div>
 
 </body>
 </html>
