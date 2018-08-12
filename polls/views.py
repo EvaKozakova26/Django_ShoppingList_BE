@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.template import loader
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 
 from polls.models import Item
 
@@ -18,3 +20,19 @@ def index(request):
 def detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     return render(request, 'polls/detail.html', {'item': item})  # vraci HTTPRquest..
+#
+# def login_view(request):
+#     username = request.POST['username']
+#     password = request.POST['password']
+#     user = authenticate(request, username=username, password=password)
+#     if user is not None:
+#         login(request, user)
+#         # Redirect to a success page.
+#         ...
+#     else:
+#         #         # Return an 'invalid login' error message.
+#         ...
+#
+# def logout_view(request):
+#     logout(request)
+#     # Redirect to a success page.
