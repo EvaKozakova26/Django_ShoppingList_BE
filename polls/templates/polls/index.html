@@ -1,6 +1,8 @@
+{% extends "./navbar.html" %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'polls/normalize.css' %}">
@@ -8,7 +10,6 @@
     <title>My first django web app</title>
 </head>
 <body>
-
 <div class="container">
     {% if latest_items_list %}
         <table class="u-full-width">
@@ -34,6 +35,6 @@
     {% endif %}
 
 </div>
-
 </body>
+{% endblock %}
 </html>

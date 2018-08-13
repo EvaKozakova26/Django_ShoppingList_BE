@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/navbar.css' %}">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="topnav">
+    <a class="active" href="/polls/">Home</a>
+    <a href="/polls/login/">Login</a>
+    <input type="text" placeholder="Search..">
+</div>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
