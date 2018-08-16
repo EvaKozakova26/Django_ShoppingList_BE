@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/polls'
+LOGOUT_REDIRECT_URL = '/polls'
 
 
 # Application definition
