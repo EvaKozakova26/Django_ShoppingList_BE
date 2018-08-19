@@ -8,6 +8,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'polls/normalize.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'polls/skeleton.css' %}">
     <title>My first django web app</title>
+
+    <script>
+        function funcNotLogged() {
+            alert("You must be logged in!");
+        }
+
+        function funcSuccess() {
+            alert("This item was added to your favorites");
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -17,6 +27,7 @@
             <tr>
                 <th>Name</th>
                 <th>Date</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +36,11 @@
 
                     <td><a href="{% url 'detail' item.id %}">{{ item.itemName }}</a></td>
                     <td>{{ item.date }}</td>
-
+                    {% if user.is_authenticated %}
+                        <td><a href="#" onclick="funcSuccess()">Add to favorites</a></td>
+                    {% else %}
+                        <td><a href="#" onclick="funcNotLogged()">Add to favorites</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

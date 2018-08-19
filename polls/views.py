@@ -9,7 +9,7 @@ from polls.models import Item
 
 
 def index(request):
-    latest_items_list = Item.objects.order_by('-date')[:5]
+    latest_items_list = Item.objects.order_by('-date')[:20]
     template = loader.get_template('polls/index.html')
     context = {
         'latest_items_list': latest_items_list,
