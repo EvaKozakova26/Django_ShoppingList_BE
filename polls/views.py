@@ -1,7 +1,3 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
-from django.template import loader
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 
@@ -17,15 +13,11 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 
-# get_obj.. metoda, ktera bere model a klicove slovo a zobrazi item, kdyz existuje, jinak raise 404
-@login_required(login_url='/polls/login/')
-def detail(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    if request.user.is_authenticated:
-        print("loggged")
-    else:
-        print("not logged madafaka")
-    return render(request, 'polls/detail.html', {'item': item})  # vraci HTTPRquest..
+class DetailsView(generics.RetrieveUpdateDestroyAPIView):
+    """This class handles the http GET, PUT and DELETE requests."""
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
 #
 def login_view(request):
     username = request.POST['username']
