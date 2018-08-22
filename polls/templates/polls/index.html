@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'polls/skeleton.css' %}">
     <title>My first django web app</title>
 
-    <script>
+    <script type='text/javascript'>
         function funcNotLogged() {
             alert("You must be logged in!");
         }
@@ -18,10 +18,11 @@
             alert("This item was added to your favorites");
         }
     </script>
+
 </head>
 <body>
 <div class="container">
-    {% if latest_items_list %}
+    {% if items %}
         <table class="u-full-width">
             <thead>
             <tr>
@@ -31,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for item in latest_items_list %}
+            {% for item in items %}
                 <tr>
 
                     <td><a href="{% url 'detail' item.id %}">{{ item.itemName }}</a></td>
@@ -46,7 +47,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>No polls are available.</p>
+        <p>No items are available.</p>
     {% endif %}
 
 </div>

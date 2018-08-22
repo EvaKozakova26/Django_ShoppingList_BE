@@ -1,16 +1,25 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from rest_framework import generics
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from polls.models import Item
+from polls.serializer import ItemSerializer
 
 
-def index(request):
-    latest_items_list = Item.objects.order_by('-date')[:20]
-    template = loader.get_template('polls/index.html')
-    context = {
-        'latest_items_list': latest_items_list,
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'polls/index.html'
+
+    def get(self, request):
+        queryset = Item.objects.all()
+        return Response({'items': queryset})
+
+    def perform_create(self, serializer):
+        """Save the post data when creating a new items."""
+        serializer.save()
 
 
 class DetailsView(generics.RetrieveUpdateDestroyAPIView):
