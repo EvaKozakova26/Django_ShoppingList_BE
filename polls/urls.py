@@ -11,6 +11,10 @@ urlpatterns = [
     # ex: /polls/5/
     # Add Django site authentication urls (for login, logout, password management)
     path('', include('django.contrib.auth.urls')),
+
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^auth/$', views.login_form, name='login_form'),
     url(r'^$', IndexView.as_view(), name="index"),
 
     path('<int:pk>/', views.DetailsView.as_view(), name='detail'),

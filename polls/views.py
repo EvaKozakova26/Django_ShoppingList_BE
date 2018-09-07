@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.shortcuts import render, redirect
 from rest_framework import generics
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from first_django import settings
 from polls.models import Item
 from polls.serializer import ItemSerializer
 
@@ -28,19 +30,21 @@ class DetailsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ItemSerializer
 
 #
+
+def login_form(request):
+    return render(request, 'registration/login.html', {})
+
 def login_view(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        login(request, user)
-        # Redirect to a success page.
-        ...
-    else:
-        #         # Return an 'invalid login' error message.
-        ...
-
+        # the password verified for the user
+        if user.is_active:
+            login(request, user)
+            return redirect('/polls/')
+    return redirect(settings.LOGIN_REDIRECT_URL, request)
 
 def logout_view(request):
     logout(request)
-    # Redirect to a success page.
+    return redirect('/polls/')
