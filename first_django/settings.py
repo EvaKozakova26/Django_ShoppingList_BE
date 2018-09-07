@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/polls'
+LOGIN_REDIRECT_URL = '/polls/login'
 LOGOUT_REDIRECT_URL = '/polls'
 
 

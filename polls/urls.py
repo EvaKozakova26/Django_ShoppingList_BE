@@ -10,7 +10,7 @@ urlpatterns = [
     #    path('', views.index, name='index'),
     # ex: /polls/5/
     # Add Django site authentication urls (for login, logout, password management)
-    path('', include('django.contrib.auth.urls')),
+    #  path('', include('django.contrib.auth.urls')),
 
     url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
