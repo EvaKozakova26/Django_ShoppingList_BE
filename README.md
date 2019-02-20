@@ -1,2 +1,2 @@
 # first_django
-first django project
+django backend for shopping list FE
