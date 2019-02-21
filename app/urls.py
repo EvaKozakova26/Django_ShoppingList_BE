@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^$', ItemsView.as_view(), name="index"),
 
     path('api/items/', views.ItemsView.as_view()),
-    path('api/lists/', views.ShoppingListsView.as_view())
+    path('api/getLists/', views.ShoppingListsView.as_view())
 
 ]
 
