@@ -27,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/polls/login'
-LOGOUT_REDIRECT_URL = '/polls'
+LOGIN_REDIRECT_URL = '/app/login'
+LOGOUT_REDIRECT_URL = '/app'
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls.apps.PollsConfig',
+    'app.apps.AppConfig',
     'rest_framework',
 ]
 
@@ -88,13 +88,13 @@ WSGI_APPLICATION = 'first_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'data',
+        'NAME': 'demo',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
-            'read_default_file': 'Users\DAVID\PycharmProjects\first_django/my.cnf',
+            'read_default_file': 'Users\DAVID\PycharmProjects/first_django/my.cnf',
         },
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),

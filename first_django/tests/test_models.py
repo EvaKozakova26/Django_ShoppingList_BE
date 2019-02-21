@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.test import TestCase
 
-from polls.models import Item
+from app.models import Item
 
 
 class ItemTestCase(TestCase):
