@@ -71,6 +71,20 @@ class CreateShoppingList(APIView):
         return Response("", status=status.HTTP_201_CREATED)
 
 
+class UpdateShoppingList(APIView):
+    def post(self, request):
+        shoppingListDto = request.data
+        items = shoppingListDto['items']
+        shoppingListDict = shoppingListDto['shoppingList']
+        sListId = shoppingListDict['id']
+        shoppingList = ShoppingList.objects.get(id=sListId)
+        for it in items:
+            itemId = it['id']
+            item = Item.objects.get(id=itemId)
+            item.shoppingList = shoppingList
+            item.save()
+        return Response(request.data, status=status.HTTP_201_CREATED)
+
 class ShoppingListsView(generics.ListCreateAPIView):
     queryset = ShoppingList.objects.all()
     serializer_class = ShoppingListSerializer
