@@ -17,7 +17,9 @@ urlpatterns = [
     url(r'^$', ItemsView.as_view(), name="index"),
 
     path('api/items/', views.ItemsView.as_view()),
-    path('api/getLists/', views.ShoppingListsView.as_view())
+    path('api/getLists/', views.ShoppingListsView.as_view()),
+    path('api/new', views.CreateItem.as_view()),
+    path('api/saveList', views.CreateShoppingList.as_view())
 
 ]
 

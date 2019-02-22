@@ -1,10 +1,12 @@
+import dateutil.parser
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, request, JsonResponse
 from django.shortcuts import render, redirect
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
@@ -21,6 +23,29 @@ class ItemsView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Item.objects.filter(shoppingList=1)
+
+
+class CreateItem(APIView):
+    def post(self, request):
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateShoppingList(APIView):
+    def post(self, request, *args, **kwargs):
+        newShopList = ShoppingList.objects.create()
+        itemList = request.data
+        for it in itemList:
+            print(it)
+            itemId = it['id']
+            item = Item.objects.get(id=itemId)
+            item.shoppingList = newShopList
+            item.save()
+
+        return Response("", status=status.HTTP_201_CREATED)
 
 
 class ShoppingListsView(generics.ListCreateAPIView):
