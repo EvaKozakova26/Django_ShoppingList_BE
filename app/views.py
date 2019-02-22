@@ -18,11 +18,14 @@ from app.models import Item, ShoppingList
 from app.serializer import ItemSerializer, ShoppingListSerializer
 
 
-class ItemsView(generics.ListCreateAPIView):
+class ItemsView(APIView):
     serializer_class = ItemSerializer
 
-    def get_queryset(self):
-        return Item.objects.filter(shoppingList=1)
+    def post(self, request):
+        shopList = request.data
+        items = shopList['items']
+        return Response(items, status=status.HTTP_201_CREATED)
+
 
 
 class CreateItem(APIView):
