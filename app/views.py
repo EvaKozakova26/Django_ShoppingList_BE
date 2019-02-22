@@ -37,6 +37,26 @@ class CreateItem(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UpdateItem(APIView):
+    def put(self, request):
+        itemDict = request.data
+        itemId = itemDict['id']
+        item = Item.objects.get(id=itemId)
+        item.state = itemDict['state']
+        item.save()
+
+        return Response(request.data, status=status.HTTP_201_CREATED)
+
+
+class DeleteItem(APIView):
+    def delete(self, request):
+        itemDict = request.data
+        itemId = itemDict['id']
+        item = Item.objects.get(id=itemId)
+        item.delete()
+        return Response(request.data, status=status.HTTP_201_CREATED)
+
+
 class CreateShoppingList(APIView):
     def post(self, request, *args, **kwargs):
         newShopList = ShoppingList.objects.create()

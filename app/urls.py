@@ -19,7 +19,9 @@ urlpatterns = [
     path('api/getItems', views.ItemsView.as_view()),
     path('api/getLists/', views.ShoppingListsView.as_view()),
     path('api/new', views.CreateItem.as_view()),
-    path('api/saveList', views.CreateShoppingList.as_view())
+    path('api/saveList', views.CreateShoppingList.as_view()),
+    path('api/check', views.UpdateItem.as_view()),
+    path('api/delete', views.DeleteItem.as_view()),
 
 ]
 
