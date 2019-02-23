@@ -85,6 +85,16 @@ class UpdateShoppingList(APIView):
             item.save()
         return Response(request.data, status=status.HTTP_201_CREATED)
 
+
+class DeleteList(APIView):
+    def delete(self, request):
+        listDict = request.data
+        listId = listDict['id']
+        list = ShoppingList.objects.get(id=listId)
+        list.delete()
+        return Response(request.data, status=status.HTTP_201_CREATED)
+
+
 class ShoppingListsView(generics.ListCreateAPIView):
     queryset = ShoppingList.objects.all()
     serializer_class = ShoppingListSerializer

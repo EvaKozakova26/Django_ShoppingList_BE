@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/check', views.UpdateItem.as_view()),
     path('api/delete', views.DeleteItem.as_view()),
     path('api/updateList', views.UpdateShoppingList.as_view()),
+    path('api/deleteList', views.DeleteList.as_view()),
 
 ]
 
