@@ -1,19 +1,12 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-
-class MyUser(models.Model):
-    name = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
 class ShoppingList(models.Model):
     createdAt = models.DateTimeField(default=datetime.now)
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
 
 
 class Item(models.Model):

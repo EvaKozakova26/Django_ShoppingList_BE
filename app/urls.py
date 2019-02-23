@@ -12,8 +12,6 @@ urlpatterns = [
     # Add Django site authentication urls (for login, logout, password management)
     #  path('', include('django.contrib.auth.urls')),
 
-    url(r'^login/$', views.login_view, name='login'),
-    url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^$', ItemsView.as_view(), name="index"),
 
     path('api/getItems', views.ItemsView.as_view()),
@@ -24,6 +22,10 @@ urlpatterns = [
     path('api/delete', views.DeleteItem.as_view()),
     path('api/updateList', views.UpdateShoppingList.as_view()),
     path('api/deleteList', views.DeleteList.as_view()),
+
+    path('api/register', views.CreateNewUser.as_view()),
+    path('api/loginn', views.LoginUser.as_view()),
+    path('api/logoutt', views.LogoutUser.as_view())
 
 ]
 

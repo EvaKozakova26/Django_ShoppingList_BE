@@ -3,11 +3,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import HttpResponse, request, JsonResponse
 from django.shortcuts import render, redirect
 from rest_framework import generics, status
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -96,22 +98,43 @@ class DeleteList(APIView):
 
 
 class ShoppingListsView(generics.ListCreateAPIView):
-    queryset = ShoppingList.objects.all()
     serializer_class = ShoppingListSerializer
+    authentication_classes = (BasicAuthentication, SessionAuthentication)
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        user = self.request.user
+        print(user)
+        print(" in da lusr")
+        return ShoppingList.objects.all()
 
 
-
-def login_view(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        # the password verified for the user
-        if user.is_active:
-            login(request, user)
-            return redirect('/app/')
+class CreateNewUser(APIView):
+    def post(self, request):
+        userData = request.data
+        name = userData['name']
+        passwrd = userData['password']
+        User.objects.create_user(username=name, password=passwrd)
+        return Response(request.data, status=status.HTTP_201_CREATED)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('/app/')
+class LoginUser(APIView):
+    def post(self, request):
+        userData = request.data
+        name = userData['name']
+        passwrd = userData['password']
+        user = authenticate(username=name, password=passwrd)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                print(" im logged madafakas")
+                return Response(request.data, status=status.HTTP_201_CREATED)
+
+
+class LogoutUser(APIView):
+    authentication_classes = (BasicAuthentication, SessionAuthentication)
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        logout(request)
+        return Response(self.request.data, status=status.HTTP_201_CREATED)
