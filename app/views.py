@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse, request, JsonResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.decorators import api_view
@@ -15,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import logging
 
+from app.auth import CsrfExemptSessionAuthentication
 from first_django import settings
 from app.models import Item, ShoppingList
 from app.serializer import ItemSerializer, ShoppingListSerializer
@@ -59,9 +62,19 @@ class DeleteItem(APIView):
         return Response(request.data, status=status.HTTP_201_CREATED)
 
 
+
 class CreateShoppingList(APIView):
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        return super(CreateShoppingList, self).dispatch(request, *args, **kwargs)
+
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (AllowAny,)
     def post(self, request, *args, **kwargs):
+        currentUser = request.user
         newShopList = ShoppingList.objects.create()
+        newShopList.user = currentUser
+        newShopList.save()
         itemList = request.data
         for it in itemList:
             print(it)
@@ -69,7 +82,6 @@ class CreateShoppingList(APIView):
             item = Item.objects.get(id=itemId)
             item.shoppingList = newShopList
             item.save()
-
         return Response("", status=status.HTTP_201_CREATED)
 
 
@@ -104,9 +116,10 @@ class ShoppingListsView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        print(user)
-        print(" in da lusr")
+        if user.is_active:
+            return ShoppingList.objects.filter(user=user)
         return ShoppingList.objects.all()
+
 
 
 class CreateNewUser(APIView):
@@ -132,9 +145,11 @@ class LoginUser(APIView):
 
 
 class LogoutUser(APIView):
-    authentication_classes = (BasicAuthentication, SessionAuthentication)
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (AllowAny,)
 
     def get(self, request):
+        print(self.request.user)
+        print("logout")
         logout(request)
         return Response(self.request.data, status=status.HTTP_201_CREATED)
