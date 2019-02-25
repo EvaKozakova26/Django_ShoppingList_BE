@@ -84,6 +84,12 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'first_django.urls'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
