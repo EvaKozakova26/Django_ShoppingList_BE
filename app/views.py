@@ -1,24 +1,14 @@
-import dateutil.parser
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponse, request, JsonResponse
-from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, status
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-import logging
 
 from app.auth import CsrfExemptSessionAuthentication
-from first_django import settings
 from app.models import Item, ShoppingList
 from app.serializer import ItemSerializer, ShoppingListSerializer
 
@@ -118,8 +108,7 @@ class ShoppingListsView(generics.ListCreateAPIView):
         user = self.request.user
         if user.is_active:
             return ShoppingList.objects.filter(user=user)
-        return ShoppingList.objects.all()
-
+        return ShoppingList.objects.filter(id=999999)  # temporary workaround
 
 
 class CreateNewUser(APIView):
@@ -140,8 +129,9 @@ class LoginUser(APIView):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                print(" im logged madafakas")
+                print("user is logged in")
                 return Response(request.data, status=status.HTTP_201_CREATED)
+        return Response(request.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class LogoutUser(APIView):

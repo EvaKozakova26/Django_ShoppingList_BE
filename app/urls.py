@@ -16,16 +16,16 @@ urlpatterns = [
 
     path('api/getItems', views.ItemsView.as_view()),
     path('api/getLists/', views.ShoppingListsView.as_view()),
-    path('api/new', views.CreateItem.as_view()),
+    path('api/newItem', views.CreateItem.as_view()),
     path('api/saveList', views.CreateShoppingList.as_view()),
-    path('api/check', views.UpdateItem.as_view()),
-    path('api/delete', views.DeleteItem.as_view()),
+    path('api/checkItem', views.UpdateItem.as_view()),
+    path('api/deleteItem', views.DeleteItem.as_view()),
     path('api/updateList', views.UpdateShoppingList.as_view()),
     path('api/deleteList', views.DeleteList.as_view()),
 
     path('api/register', views.CreateNewUser.as_view()),
-    path('api/loginn', views.LoginUser.as_view()),
-    path('api/logoutt', views.LogoutUser.as_view())
+    path('api/loginUser', views.LoginUser.as_view()),
+    path('api/logoutUser', views.LogoutUser.as_view())
 
 ]
 
