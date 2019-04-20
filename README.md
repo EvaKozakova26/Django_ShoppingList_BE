@@ -12,7 +12,7 @@ pip install django-cors-headers
 Pokud by cokoliv z toho nešlo nainstalovat, je možné ruční přídání přes `File-Settings-Project-Project Interpreter- +`
 Pravděpodobně bude vyžadována kombinace obojího
 
-5. DB migrace
+5. DB migrace (nejdříve je potřeba v souboru `settings.py` změnit přihlašovací údaje do lokální db
 ```
 python manage.py makemigrations app
 python manage.py migrate
